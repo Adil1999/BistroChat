@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +30,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
@@ -44,9 +51,9 @@ public class CreateProfileActivity extends AppCompatActivity {
     EditText fname,lname,number,bio,date;
     Button male,female,none,save;
     TextView appTitle;
-    String f_name,l_name,no,bio_data,dt,gender,id;
+    String f_name,l_name,no,bio_data,dt,gender,img;
     ImageView profile;
-    Uri imagePath;
+    Uri imagePath = null;
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -131,7 +138,6 @@ public class CreateProfileActivity extends AppCompatActivity {
                 dt = date.getText().toString().trim();
                 no = number.getText().toString().trim();
                 bio_data = bio.getText().toString().trim();
-                id = user.getUid().trim();
 
                 Log.i("fname: ", f_name);
                 Log.i("lname: ", l_name);
@@ -156,11 +162,58 @@ public class CreateProfileActivity extends AppCompatActivity {
                     return;
                 }
 
-                reference.child(user.getUid()).push().setValue(
-                        new User(f_name, l_name, dt, gender, no, bio_data)
-                );
-                startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
-                finish();
+                if(imagePath != null){
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                    storageReference = storageReference.child(user.getUid());
+                    storageReference.putFile(imagePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> task = taskSnapshot.getStorage().getDownloadUrl();
+                            task
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            img = uri.toString();
+                                            reference.child(user.getUid()).push().setValue(
+                                                    new User(
+                                                            f_name,
+                                                            l_name,
+                                                            dt, gender,
+                                                            no,
+                                                            bio_data,
+                                                            img)
+                                            );
+                                            startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(
+                                                    CreateProfileActivity.this,
+                                                    "Failed to Upload Image",
+                                                    Toast.LENGTH_LONG
+                                            ).show();
+                                        }
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(
+                                    CreateProfileActivity.this,
+                                    "Failed to Upload Image",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(CreateProfileActivity.this, "Please select picture", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -1,17 +1,26 @@
 package com.adil.i170127;
 
 public class User {
-    private String fname,lname,number,bio,date, gender;
+    private String fname,lname,number,bio,date, gender, imgUri;
 
     public User(){}
 
-    public User(String fname, String lname, String date, String gender, String number, String bio){
+    public User(String fname, String lname, String date, String gender, String number, String bio, String imgUri){
         this.bio = bio;
         this.date = date;
         this.fname = fname;
         this.lname = lname;
         this.gender = gender;
         this.number = number;
+        this.imgUri = imgUri;
+    }
+
+    public String getImgUri() {
+        return imgUri;
+    }
+
+    public void setImgUri(String imgUri) {
+        this.imgUri = imgUri;
     }
 
     public String getFname() {
