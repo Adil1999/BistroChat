@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".SigninMainActivity">
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:src="@mipmap/logo_foreground"/>
+
+        <LinearLayout
+            android:layout_weight="5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColorHint="#fff"
+                android:hint="Username or Email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/unfilled_btn"
+                android:drawableLeft="@drawable/ic_baseline_person_outline_24"/>
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColorHint="#fff"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:background="@drawable/unfilled_btn"
+                android:drawableLeft="@drawable/ic_baseline_vpn_key_24"/>
+
+            <Button
+                android:id="@+id/signin"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="10dp"
+                android:text="Sign in"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/filled_btn"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/register"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:text="Don't have an account? Signup"
+        android:background="@color/colorPrimary"/>
+
+</RelativeLayout>
