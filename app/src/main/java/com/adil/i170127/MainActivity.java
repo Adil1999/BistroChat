@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     Button register, signin;
     Toolbar toolbar;
 
+    ///Adding this to check if this change is done on github after pushing
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
