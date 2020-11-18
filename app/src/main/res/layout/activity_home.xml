@@ -16,19 +16,51 @@
         <include layout="@layout/appbar"/>
 
         <LinearLayout
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
-            <TextView
+            android:weightSum="10">
+
+            <RelativeLayout
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Welcome To BistroChat"
-                android:textSize="40dp"
-                android:textColor="@color/colorPrimary"
-                android:layout_gravity="center"
-                android:gravity="center"
-                />
+                android:layout_height="0dp"
+                android:layout_weight="1.25"
+                android:background="@drawable/search_bar">
+
+                <ImageView
+                    android:id="@+id/search_badge"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/ic_baseline_search_24"/>
+
+                <EditText
+                    android:id="@+id/searchbar"
+                    android:layout_toRightOf="@+id/search_badge"
+                    android:layout_toLeftOf="@id/profile_img"
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search"
+                    android:background="#FFF"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_img"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@mipmap/image_select_foreground"/>
+            </RelativeLayout>
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civ"
                 android:padding="5dp"

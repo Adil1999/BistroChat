@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
     NavigationView nv;
 
     TextView title,nav_email, nav_name;
-    CircleImageView civ;
+    CircleImageView civ, search_img;
     User userData;
 
     public void nav_logout(){
@@ -108,9 +108,21 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Uri uri) {
                     Picasso.get().load(uri).fit().centerCrop().into(civ);
+                    Picasso.get().load(uri).fit().centerCrop().into(search_img);
                 }
             });
     }
+
+    public void open_bottomSheet(){
+        search_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileBottomSheet profileBottomSheet = new ProfileBottomSheet();
+                profileBottomSheet.show(getSupportFragmentManager(), "My Profile");
+            }
+        });
+    }
+
 
 
 
@@ -135,6 +147,7 @@ public class HomeActivity extends AppCompatActivity {
         nav_email = header.findViewById(R.id.email);
         nav_name = header.findViewById(R.id.name);
         title = toolbar.findViewById(R.id.title);
+        search_img = findViewById(R.id.profile_img);
 
         title.setText("BistroChat");
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
@@ -146,6 +159,7 @@ public class HomeActivity extends AppCompatActivity {
         set_navigation();
         retrieve_user();
         set_navHeaderFields();
+        open_bottomSheet();
     }
 
     @Override
