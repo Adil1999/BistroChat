@@ -139,21 +139,24 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 users.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    for(DataSnapshot ds2 : ds.getChildren()){
-                        User new_user = ds2.getValue(User.class);
-                        Log.d("IN HOME RV ",  ds.getKey());
-                        Log.d("IN HOME RV ",  ds2.getKey());
-//                        Log.d("IN HOME RV", new_user.getFname());
-//                        Log.d("IN HOME RV", new_user.getLname());
-//                        Log.d("IN HOME RV", new_user.getNumber());
+                    if (!user.getUid().equals(ds.getKey())){
+                        for(DataSnapshot ds2 : ds.getChildren()){
+                            User new_user = ds2.getValue(User.class);
+                            Log.d("IN HOME RV ",  ds.getKey());
+                            Log.d("IN HOME RV ",  ds2.getKey());
+    //                        Log.d("IN HOME RV", new_user.getFname());
+    //                        Log.d("IN HOME RV", new_user.getLname());
+    //                        Log.d("IN HOME RV", new_user.getNumber());
 
 
-                        assert new_user != null;
-                        assert user != null;
+                            assert new_user != null;
+                            assert user != null;
 
-                        users.add(new_user);
+                            users.add(ds2.getValue(User.class));
+                        }
                     }
                 }
+
                 MyRvAdapter = new UserAdapter(HomeActivity.this, users);
                 rv.setAdapter(MyRvAdapter);
             }

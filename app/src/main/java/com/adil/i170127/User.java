@@ -1,11 +1,19 @@
 package com.adil.i170127;
 
 public class User {
-    private String fname,lname,number,bio,date, gender, imgUri;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id,fname,lname,number,bio,date, gender, imgUri;
 
     public User(){}
 
-    public User(String fname, String lname, String date, String gender, String number, String bio, String imgUri){
+    public User(String id, String fname, String lname, String date, String gender, String number, String bio, String imgUri){
         this.bio = bio;
         this.date = date;
         this.fname = fname;

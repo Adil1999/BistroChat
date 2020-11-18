@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -9,8 +9,7 @@
         android:id="@+id/cardview">
 
         <RelativeLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -31,8 +30,8 @@
                 android:layout_toRightOf="@+id/profile_pic"
                 android:layout_toLeftOf="@id/date"
                 android:text="Adil A"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="15dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -48,7 +47,6 @@
             <TextView
                 android:id="@+id/date"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

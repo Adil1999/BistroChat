@@ -51,7 +51,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     EditText fname,lname,number,bio,date;
     Button male,female,none,save;
     TextView appTitle;
-    String f_name,l_name,no,bio_data,dt,gender,img;
+    String f_name,l_name,no,bio_data,dt,gender,img,id;
     ImageView profile;
     Uri imagePath = null;
 
@@ -95,6 +95,7 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         appTitle.setText("Create Profile");
         appTitle.setTextColor(Color.BLACK);
+        id = user.getUid().trim();
 
 
         profile.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +177,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                                         public void onSuccess(Uri uri) {
                                             img = uri.toString();
                                             reference.child(user.getUid()).push().setValue(
-                                                    new User(
+                                                    new User(id,
                                                             f_name,
                                                             l_name,
                                                             dt, gender,
