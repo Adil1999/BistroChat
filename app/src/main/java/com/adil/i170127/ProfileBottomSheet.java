@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
     FirebaseUser user;
 
     TextView profile_name, profile_number, profile_gender;
-    CircleImageView profile_pic;
+    CircleImageView profile_pic, editBtn;
     User userData;
 
     public void set_userData(){
@@ -60,7 +61,7 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                //Toast.makeText(HomeActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -80,8 +81,16 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         profile_pic = v.findViewById(R.id.profile_pic);
         profile_number = v.findViewById(R.id.profile_number);
         profile_gender = v.findViewById(R.id.profile_gender);
+        editBtn = v.findViewById(R.id.edit_btn);
 
         set_userData();
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Edit Button Called", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return v;
     }

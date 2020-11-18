@@ -29,6 +29,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -36,6 +39,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -51,9 +56,12 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout dl;
     ActionBarDrawerToggle t;
     NavigationView nv;
+    RecyclerView rv;
+    UserAdapter MyRvAdapter;
 
     TextView title,nav_email, nav_name;
     CircleImageView civ, search_img;
+    List<User> users;
     User userData;
 
     public void nav_logout(){
@@ -123,6 +131,40 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public void read_users(){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                users.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    for(DataSnapshot ds2 : ds.getChildren()){
+                        User new_user = ds2.getValue(User.class);
+                        Log.d("IN HOME RV ",  ds.getKey());
+                        Log.d("IN HOME RV ",  ds2.getKey());
+//                        Log.d("IN HOME RV", new_user.getFname());
+//                        Log.d("IN HOME RV", new_user.getLname());
+//                        Log.d("IN HOME RV", new_user.getNumber());
+
+
+                        assert new_user != null;
+                        assert user != null;
+
+                        users.add(new_user);
+                    }
+                }
+                MyRvAdapter = new UserAdapter(HomeActivity.this, users);
+                rv.setAdapter(MyRvAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 
 
@@ -140,6 +182,7 @@ public class HomeActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         toolbar = findViewById(R.id.myAppBar);
+        rv = findViewById(R.id.recycler_view);
         dl = (DrawerLayout)findViewById(R.id.nav_drawer);
         nv = (NavigationView)findViewById(R.id.nv);
         View header=nv.getHeaderView(0);
@@ -156,10 +199,28 @@ public class HomeActivity extends AppCompatActivity {
         t.setDrawerIndicatorEnabled(true);
         t.syncState();
 
+        users = new ArrayList<User>();
+
         set_navigation();
         retrieve_user();
         set_navHeaderFields();
         open_bottomSheet();
+
+        read_users();
+
+
+//        Log.d("IN HOME RV", users.get(0).getFname());
+//        Log.d("IN HOME RV", users.get(0).getLname());
+//        Log.d("IN HOME RV", users.get(0).getNumber());
+//
+//        Log.d("IN HOME RV", users.get(1).getFname());
+//        Log.d("IN HOME RV", users.get(1).getLname());
+//        Log.d("IN HOME RV", users.get(1).getNumber());
+
+        MyRvAdapter = new UserAdapter(this, users);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
+        rv.setLayoutManager(lm);
+        rv.setAdapter(MyRvAdapter);
     }
 
     @Override
