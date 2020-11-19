@@ -78,7 +78,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference();
+        reference = database.getReference("Users").child(user.getUid());
 
         toolbar = (Toolbar) findViewById(R.id.myAppBar);
         appTitle = toolbar.findViewById(R.id.title);
@@ -140,11 +140,12 @@ public class CreateProfileActivity extends AppCompatActivity {
                 no = number.getText().toString().trim();
                 bio_data = bio.getText().toString().trim();
 
-                Log.i("fname: ", f_name);
-                Log.i("lname: ", l_name);
-                Log.i("date: ", dt);
-                Log.i("number: ", no);
-                Log.i("bio_data: ", bio_data);
+//                Log.d("ID", id);
+//                Log.i("fname: ", f_name);
+//                Log.i("lname: ", l_name);
+//                Log.i("date: ", dt);
+//                Log.i("number: ", no);
+//                Log.i("bio_data: ", bio_data);
 
                 if(TextUtils.isEmpty(f_name)){
                     Toast.makeText(CreateProfileActivity.this, "Please Enter First Name", Toast.LENGTH_LONG).show();
@@ -176,17 +177,16 @@ public class CreateProfileActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             img = uri.toString();
-                                            reference.child(user.getUid()).push().setValue(
-                                                    new User(id,
-                                                            f_name,
-                                                            l_name,
-                                                            dt, gender,
-                                                            no,
-                                                            bio_data,
-                                                            img)
-                                            );
+                                            //User object = new User(id, f_name, l_name, dt, gender, no, bio_data, img);
+                                            Log.d("ID: ", id);
+                                            reference.push().setValue(new User(user.getUid(), f_name, l_name, dt, gender, no, bio_data, img));
                                             startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
                                             finish();
+                                            Toast.makeText(
+                                                    CreateProfileActivity.this,
+                                                    id,
+                                                    Toast.LENGTH_LONG
+                                            ).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {

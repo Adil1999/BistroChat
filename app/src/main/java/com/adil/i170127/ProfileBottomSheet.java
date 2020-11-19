@@ -72,7 +72,7 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(user.getUid());
+        reference = database.getReference().child("Users").child(user.getUid());
         storageReference = FirebaseStorage.getInstance().getReference();
 
         View v = inflater.inflate(R.layout.profile_bottom_sheet, container, false);

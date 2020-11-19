@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void read_users(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -181,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child(user.getUid());
+        reference = database.getReference("Users").child(user.getUid());
         storageReference = FirebaseStorage.getInstance().getReference();
 
         toolbar = findViewById(R.id.myAppBar);

@@ -21,6 +21,7 @@ public class User {
         this.gender = gender;
         this.number = number;
         this.imgUri = imgUri;
+        this.id = id;
     }
 
     public String getImgUri() {
