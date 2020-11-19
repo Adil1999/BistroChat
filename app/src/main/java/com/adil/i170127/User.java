@@ -1,6 +1,8 @@
 package com.adil.i170127;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     public String getId() {
         return id;
     }

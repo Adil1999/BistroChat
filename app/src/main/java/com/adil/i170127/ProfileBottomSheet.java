@@ -1,11 +1,13 @@
 package com.adil.i170127;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +56,10 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Edit Button Called", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                intent.putExtra("UserData", userData);
+                startActivity(intent);
+                //Toast.makeText(getContext(), "Edit Button Called", Toast.LENGTH_SHORT).show();
             }
         });
 

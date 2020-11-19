@@ -1,6 +1,7 @@
 package com.adil.i170127;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -170,8 +173,6 @@ public class MessageActivity extends AppCompatActivity {
                         chats.add(chat);
                     }
 
-
-                    Log.d("Reading Chats: ",chats.get(0).getMessage());
                 }
                 MyRvAdapter = new MessageAdpater(MessageActivity.this, chats, imgUrl);
                 rv.setAdapter(MyRvAdapter);
@@ -184,5 +185,4 @@ public class MessageActivity extends AppCompatActivity {
         });
 
     }
-
 }

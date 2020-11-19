@@ -1,6 +1,7 @@
 package com.adil.i170127;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,10 +50,11 @@ public class CreateProfileActivity extends AppCompatActivity {
 
 
     Toolbar toolbar;
+    RelativeLayout rl;
 
     EditText fname,lname,number,bio,date;
     Button male,female,none,save;
-    TextView appTitle;
+    TextView title;
     String f_name,l_name,no,bio_data,dt,gender,img,id;
     ImageView profile;
     Uri imagePath = null;
@@ -69,6 +73,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +85,9 @@ public class CreateProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users").child(user.getUid());
 
-        toolbar = (Toolbar) findViewById(R.id.myAppBar);
-        appTitle = toolbar.findViewById(R.id.title);
+        rl = findViewById(R.id.bar_layout);
+        toolbar = rl.findViewById(R.id.myAppBar);
+        title = rl.findViewById(R.id.title);
         fname = findViewById(R.id.fname);
         lname = findViewById(R.id.lname);
         number = findViewById(R.id.number);
@@ -93,8 +99,11 @@ public class CreateProfileActivity extends AppCompatActivity {
         save = findViewById(R.id.save);
         profile = findViewById(R.id.civ);
 
-        appTitle.setText("Create Profile");
-        appTitle.setTextColor(Color.BLACK);
+        title.setText("Create Profile");
+        title.setTextColor(Color.BLACK);
+        addOrRemoveProperty(title, RelativeLayout.ALIGN_PARENT_LEFT, true);
+        addOrRemoveProperty(title, RelativeLayout.CENTER_IN_PARENT, false);
+
         id = user.getUid().trim();
 
 
@@ -182,11 +191,6 @@ public class CreateProfileActivity extends AppCompatActivity {
                                             reference.push().setValue(new User(user.getUid(), f_name, l_name, dt, gender, no, bio_data, img));
                                             startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
                                             finish();
-                                            Toast.makeText(
-                                                    CreateProfileActivity.this,
-                                                    id,
-                                                    Toast.LENGTH_LONG
-                                            ).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -218,4 +222,16 @@ public class CreateProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void addOrRemoveProperty(View view, int property, boolean flag){
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        if(flag){
+            layoutParams.addRule(property);
+        }else {
+            layoutParams.removeRule(property);
+        }
+        view.setLayoutParams(layoutParams);
+    }
+
 }

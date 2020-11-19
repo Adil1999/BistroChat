@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +59,10 @@ public class HomeActivity extends AppCompatActivity {
     ActionBarDrawerToggle t;
     NavigationView nv;
     RecyclerView rv;
+    RelativeLayout rl;
     UserAdapter MyRvAdapter;
 
-    TextView title,nav_email, nav_name;
+    TextView nav_email, nav_name;
     CircleImageView civ, search_img;
     List<User> users;
     User userData;
@@ -162,7 +164,8 @@ public class HomeActivity extends AppCompatActivity {
         reference = database.getReference("Users").child(user.getUid());
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        toolbar = findViewById(R.id.myAppBar);
+        rl = findViewById(R.id.bar_layout);
+        toolbar = rl.findViewById(R.id.myAppBar);
         rv = findViewById(R.id.recycler_view);
         dl = (DrawerLayout)findViewById(R.id.nav_drawer);
         nv = (NavigationView)findViewById(R.id.nv);
@@ -170,10 +173,8 @@ public class HomeActivity extends AppCompatActivity {
         civ = header.findViewById(R.id.profile);
         nav_email = header.findViewById(R.id.email);
         nav_name = header.findViewById(R.id.name);
-        title = toolbar.findViewById(R.id.title);
         search_img = findViewById(R.id.profile_img);
 
-        title.setText("BistroChat");
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
         t = new ActionBarDrawerToggle(this, dl, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dl.addDrawerListener(t);
@@ -187,15 +188,6 @@ public class HomeActivity extends AppCompatActivity {
         open_bottomSheet();
 
         read_users();
-
-
-//        Log.d("IN HOME RV", users.get(0).getFname());
-//        Log.d("IN HOME RV", users.get(0).getLname());
-//        Log.d("IN HOME RV", users.get(0).getNumber());
-//
-//        Log.d("IN HOME RV", users.get(1).getFname());
-//        Log.d("IN HOME RV", users.get(1).getLname());
-//        Log.d("IN HOME RV", users.get(1).getNumber());
 
         MyRvAdapter = new UserAdapter(this, users);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
