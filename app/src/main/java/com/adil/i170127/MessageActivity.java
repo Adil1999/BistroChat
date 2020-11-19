@@ -39,6 +39,7 @@ public class MessageActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
 
+        toolbar.setContentInsetsAbsolute(0,0);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +47,7 @@ public class MessageActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
         profile_pic = findViewById(R.id.userimg);
         username = findViewById(R.id.username);
@@ -68,7 +70,7 @@ public class MessageActivity extends AppCompatActivity {
                         user = ds2.getValue(User.class);
                         if (user_id.equals(user.getId()) == true){
                             username.setText(user.getFname()+ " " + user.getLname());
-                            Picasso.get().load(user.getImgUri()).fit().centerCrop().into(profile_pic);
+                            Picasso.get().load(user.getImgUri()).fit().into(profile_pic);
                             break;
                         }
                     }
