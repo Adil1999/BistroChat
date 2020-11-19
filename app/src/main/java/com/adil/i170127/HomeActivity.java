@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.nfc.cardemulation.HostNfcFService;
 import android.os.Build;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,6 +100,8 @@ public class HomeActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     userData = ds.getValue(User.class);
                     nav_name.setText(userData.getFname() + " " + userData.getLname());
+                    Picasso.get().load(userData.getImgUri()).fit().centerCrop().into(civ);
+                    Picasso.get().load(userData.getImgUri()).fit().centerCrop().into(search_img);
                 }
             }
 
@@ -109,23 +112,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void set_navHeaderFields(){
-        nav_email.setText(user.getEmail());
-        storageReference.child(user.getUid()).getDownloadUrl()
-            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.get().load(uri).fit().centerCrop().into(civ);
-                    Picasso.get().load(uri).fit().centerCrop().into(search_img);
-                }
-            });
-    }
-
     public void open_bottomSheet(){
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileBottomSheet profileBottomSheet = new ProfileBottomSheet();
+                ProfileBottomSheet profileBottomSheet = new ProfileBottomSheet(userData, 0);
                 profileBottomSheet.show(getSupportFragmentManager(), "My Profile");
             }
         });
@@ -133,7 +124,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void read_users(){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -142,16 +132,8 @@ public class HomeActivity extends AppCompatActivity {
                     if (!user.getUid().equals(ds.getKey())){
                         for(DataSnapshot ds2 : ds.getChildren()){
                             User new_user = ds2.getValue(User.class);
-                            Log.d("IN HOME RV ",  ds.getKey());
-                            Log.d("IN HOME RV ",  ds2.getKey());
-    //                        Log.d("IN HOME RV", new_user.getFname());
-    //                        Log.d("IN HOME RV", new_user.getLname());
-    //                        Log.d("IN HOME RV", new_user.getNumber());
-
-
                             assert new_user != null;
                             assert user != null;
-
                             users.add(ds2.getValue(User.class));
                         }
                     }
@@ -167,10 +149,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +184,6 @@ public class HomeActivity extends AppCompatActivity {
 
         set_navigation();
         retrieve_user();
-        set_navHeaderFields();
         open_bottomSheet();
 
         read_users();
@@ -227,15 +204,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         t.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         t.onConfigurationChanged(newConfig);
     }

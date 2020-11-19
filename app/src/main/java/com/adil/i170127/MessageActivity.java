@@ -46,6 +46,8 @@ public class MessageActivity extends AppCompatActivity {
     FirebaseUser fuser;
     DatabaseReference reference;
 
+    User userData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,22 +79,13 @@ public class MessageActivity extends AppCompatActivity {
         send_msg = findViewById(R.id.btn_send);
         send_text = findViewById(R.id.text_send);
 
-
-
         Intent intent = getIntent();
         final String user_id = intent.getStringExtra("userId");
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
-        profile_pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
+        retrieveUser();
 
         send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +112,7 @@ public class MessageActivity extends AppCompatActivity {
                     for(DataSnapshot ds2 : ds.getChildren()){
                         user = ds2.getValue(User.class);
                         if (user_id.equals(user.getId()) == true){
+                            userData = user;
                             username.setText(user.getFname()+ " " + user.getLname());
                             Picasso.get().load(user.getImgUri()).fit().into(profile_pic);
                             readMessage(user_id, user.getImgUri());
@@ -134,8 +128,14 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void retrieveUser(String userId, String ImageUrl){
-
+    private void retrieveUser(){
+        profile_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileBottomSheet profileBottomSheet = new ProfileBottomSheet(userData, 1);
+                profileBottomSheet.show(getSupportFragmentManager(), "User Profile");
+            }
+        });
     }
 
 
