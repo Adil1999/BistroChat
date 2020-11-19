@@ -96,12 +96,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void retrieve_user(){
+        reference = database.getReference("Users").child(user.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
                     userData = ds.getValue(User.class);
                     nav_name.setText(userData.getFname() + " " + userData.getLname());
+                    nav_email.setText(user.getEmail());
                     Picasso.get().load(userData.getImgUri()).fit().centerCrop().into(civ);
                     Picasso.get().load(userData.getImgUri()).fit().centerCrop().into(search_img);
                 }
@@ -153,7 +155,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_home);

@@ -26,8 +26,10 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
     User userData;
     int flag;
 
+    ProfileBottomSheet(){}
 
     ProfileBottomSheet(User user, int flag){
+        super();
         this.userData = user;
         this.flag = flag;
     }
@@ -46,6 +48,7 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
 
         if(flag == 1){  //meaning user flag
             tag.setText("User Profile");
+            editBtn.setVisibility(View.GONE);
         }
 
         Picasso.get().load(userData.getImgUri()).fit().centerCrop().into(profile_pic);
@@ -53,12 +56,14 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         profile_number.setText(userData.getNumber());
         profile_gender.setText(userData.getGender());
 
+
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
                 intent.putExtra("UserData", userData);
                 startActivity(intent);
+                dismiss();
                 //Toast.makeText(getContext(), "Edit Button Called", Toast.LENGTH_SHORT).show();
             }
         });
