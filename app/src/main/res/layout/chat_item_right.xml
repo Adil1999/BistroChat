@@ -19,6 +19,15 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
+            <ImageView
+                android:id="@+id/img_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/msg_right"
+                android:src="@drawable/ic_baseline_person_pin_24"
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/show_message"
                 android:background="@drawable/msg_right"

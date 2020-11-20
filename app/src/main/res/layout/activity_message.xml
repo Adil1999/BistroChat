@@ -19,17 +19,34 @@
             android:fitsSystemWindows="true"
             android:id="@+id/appBar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
-
-        <TextView
-            android:id="@+id/username"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Adil A"
-            android:gravity="center"
             android:layout_centerInParent="true"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="#000"/>
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/profile_pic">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="300dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Adil A"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="is offline"
+                android:textColor="#777"
+                android:layout_below="@+id/username"/>
+
+        </RelativeLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userimg"

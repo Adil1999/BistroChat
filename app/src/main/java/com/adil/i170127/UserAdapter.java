@@ -20,6 +20,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     Context context;
     List<User> users;
+    boolean isChat;
 
     public UserAdapter(Context c, List<User> users){
         super();
@@ -50,6 +51,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
             }
         });
 
+        if(user.getStatus().equals("online")){
+            holder.img_on.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_on.setVisibility((View.GONE));
+        }
+
 //        Log.d("IN HOME RV", users.get(position).getFname());
 //        Log.d("IN HOME RV", users.get(position).getLname());
 //        Log.d("IN HOME RV", users.get(position).getNumber());
@@ -65,11 +72,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView profile_name;
-        public CircleImageView profile_pic;
+        public CircleImageView profile_pic, img_on;
         public MyViewHolder(View itemView){
             super(itemView);
             profile_name = itemView.findViewById(R.id.profile_name);
             profile_pic = itemView.findViewById(R.id.profile_pic);
+            img_on = itemView.findViewById(R.id.img_on);
         }
 
     }

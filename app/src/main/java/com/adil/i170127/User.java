@@ -3,19 +3,11 @@ package com.adil.i170127;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    private String id,fname,lname,number,bio,date, gender, imgUri;
+    private String id,fname,lname,number,bio,date, gender, imgUri, status;
 
     public User(){}
 
-    public User(String id, String fname, String lname, String date, String gender, String number, String bio, String imgUri){
+    public User(String id, String fname, String lname, String date, String gender, String number, String bio, String imgUri, String status){
         this.bio = bio;
         this.date = date;
         this.fname = fname;
@@ -23,6 +15,24 @@ public class User implements Serializable {
         this.gender = gender;
         this.number = number;
         this.imgUri = imgUri;
+        this.id = id;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 

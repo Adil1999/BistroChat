@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,8 +52,13 @@ public class MessageAdpater extends RecyclerView.Adapter<MessageAdpater.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Chat chat = chats.get(position);
-        Log.d("In Message Adapter: ",chat.getMessage());
-        holder.show_message.setText(chat.getMessage());
+        if(chat.isImg == true){
+            holder.show_message.setAlpha(0);
+            holder.iv.setVisibility(View.VISIBLE);
+            Picasso.get().load(chat.getMessage()).into(holder.iv);
+        } else {
+            holder.show_message.setText(chat.getMessage());
+        }
         Picasso.get().load(imageUrl).into(holder.profile_pic);
     }
 
@@ -64,10 +70,12 @@ public class MessageAdpater extends RecyclerView.Adapter<MessageAdpater.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView show_message;
         public CircleImageView profile_pic;
+        public ImageView iv;
         public MyViewHolder(View itemView){
             super(itemView);
             show_message = itemView.findViewById(R.id.show_message);
             profile_pic = itemView.findViewById(R.id.profile_image);
+            iv = itemView.findViewById(R.id.img_msg);
         }
 
     }

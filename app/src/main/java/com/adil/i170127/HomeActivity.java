@@ -1,12 +1,15 @@
 package com.adil.i170127;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.nfc.cardemulation.HostNfcFService;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -65,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView nav_email, nav_name;
     CircleImageView civ, search_img;
     List<User> users;
+    List<String> contactsList;
     User userData;
 
     public void nav_logout(){
@@ -116,6 +121,32 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    private void getContactList() {
+        contactsList = new ArrayList<>();
+        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null, null, null,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+        while (cursor.moveToNext()) {
+            String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            if (contactsList.contains(phone)) {
+                cursor.moveToNext();
+            } else {
+                contactsList.add(phone);
+
+            }
+        }
+
+        Log.d("ContactsList: ", contactsList.get(0));
+        Log.d("ContactsList: ", contactsList.get(1));
+        Log.d("ContactsList: ", contactsList.get(2));
+        Log.d("ContactsList: ", contactsList.get(3));
+
+        read_users();
+        //getActualUser();
+        Log.d("contact: ", String.valueOf(contactsList.size()));
+
+    }
+
     public void open_bottomSheet(){
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +169,11 @@ public class HomeActivity extends AppCompatActivity {
                             User new_user = ds2.getValue(User.class);
                             assert new_user != null;
                             assert user != null;
-                            users.add(ds2.getValue(User.class));
+                            for (String number : contactsList){
+                                if (new_user.getNumber().equals(number)){
+                                    users.add(ds2.getValue(User.class));
+                                }
+                            }
                         }
                     }
                 }
@@ -189,13 +224,47 @@ public class HomeActivity extends AppCompatActivity {
         retrieve_user();
         open_bottomSheet();
 
-        read_users();
+        //read_users();
+        getContactList();
+
 
         MyRvAdapter = new UserAdapter(this, users);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
         rv.setLayoutManager(lm);
         rv.setAdapter(MyRvAdapter);
     }
+
+//    private void status(final String status){
+//        reference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    String key = ds.getKey();
+//                    reference.child(key).child("status").setValue(status);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+//
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        status("online");
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        status("offline");
+//    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

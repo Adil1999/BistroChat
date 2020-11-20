@@ -60,19 +60,6 @@ public class CreateProfileActivity extends AppCompatActivity {
     Uri imagePath = null;
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
-            imagePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
-                profile.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +175,7 @@ public class CreateProfileActivity extends AppCompatActivity {
                                             img = uri.toString();
                                             //User object = new User(id, f_name, l_name, dt, gender, no, bio_data, img);
                                             Log.d("ID: ", id);
-                                            reference.push().setValue(new User(user.getUid(), f_name, l_name, dt, gender, no, bio_data, img));
+                                            reference.push().setValue(new User(user.getUid(), f_name, l_name, dt, gender, no, bio_data, img, "online"));
                                             startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
                                             finish();
                                         }
@@ -221,6 +208,19 @@ public class CreateProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
+            imagePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
+                profile.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
