@@ -54,7 +54,7 @@ public class MessageAdpater extends RecyclerView.Adapter<MessageAdpater.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Chat chat = chats.get(position);
         if(chat.isImg() == true){
-            holder.show_message.setVisibility(View.GONE);
+            //holder.show_message.setVisibility(View.GONE);
             holder.iv.setVisibility(View.VISIBLE);
             Uri myUri = Uri.parse(chat.getMessage());
             Log.d("IMage URi: ", chat.getMessage());
@@ -63,7 +63,7 @@ public class MessageAdpater extends RecyclerView.Adapter<MessageAdpater.MyViewHo
             Picasso.get().load(chat.getMessage()).into(holder.iv);
         } else {
             holder.show_message.setVisibility(View.VISIBLE);
-            holder.iv.setVisibility(View.GONE);
+            //holder.iv.setVisibility(View.GONE);
             holder.show_message.setText(chat.getMessage());
         }
         Picasso.get().load(imageUrl).into(holder.profile_pic);

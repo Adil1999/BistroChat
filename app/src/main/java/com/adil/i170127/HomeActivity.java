@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     List<User> users;
     List<String> contactsList;
     User userData;
-    ImageView menu;
+    ImageView searchbadge;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,7 @@ public class HomeActivity extends AppCompatActivity {
         nav_email = header.findViewById(R.id.email);
         nav_name = header.findViewById(R.id.name);
         search_img = findViewById(R.id.profile_img);
+        searchbadge = findViewById(R.id.search_badge);
 
         toolbar.setContentInsetsAbsolute(0,0);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
@@ -227,6 +228,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void read_users() {
+        //searchbadge.setImageResource(R.drawable.ic_baseline_search_24);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -259,20 +261,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void searchUsers(final String s) {
+        searchbadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                return;
+            }
+        });
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 users.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Log.d("In search: ", ds.getKey());
                     if (!user.getUid().equals(ds.getKey())) {
                         ds.getRef().orderByChild("fname").startAt(s).endAt(s + "\uf8ff")
                             .addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for(DataSnapshot ds: dataSnapshot.getChildren()){
-                                        Log.d("In search: ", ds.getKey());
                                         User new_user = ds.getValue(User.class);
                                         for (String number : contactsList) {
                                             if (new_user.getNumber().equals(number)) {

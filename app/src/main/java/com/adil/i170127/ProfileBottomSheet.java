@@ -21,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileBottomSheet extends BottomSheetDialogFragment {
 
 
-    TextView profile_name, profile_number, profile_gender, tag;
+    TextView profile_name, profile_number, profile_gender, tag, bio;
     CircleImageView profile_pic, editBtn;
     User userData;
     int flag;
@@ -44,6 +44,7 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         profile_pic = v.findViewById(R.id.profile_pic);
         profile_number = v.findViewById(R.id.profile_number);
         profile_gender = v.findViewById(R.id.profile_gender);
+        bio = v.findViewById(R.id.bio);
         editBtn = v.findViewById(R.id.edit_btn);
 
         if(flag == 1){  //meaning user flag
@@ -55,6 +56,8 @@ public class ProfileBottomSheet extends BottomSheetDialogFragment {
         profile_name.setText(userData.getFname() + " " + userData.getLname());
         profile_number.setText(userData.getNumber());
         profile_gender.setText(userData.getGender());
+        bio.setText(userData.getBio());
+
 
 
         editBtn.setOnClickListener(new View.OnClickListener() {

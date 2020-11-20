@@ -62,18 +62,32 @@
                         android:text="Adil A"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/il"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/profile_number"
-                        android:layout_below="@+id/profile_name"
-                        android:text="03063364241"/>
+                        android:layout_below="@id/profile_name"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/ic_baseline_phone_24"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/profile_number"
+                            android:text="03063364241"/>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/profile_gender"
-                        android:layout_below="@+id/profile_number"
+                        android:layout_below="@+id/il"
                         android:text="Male"/>
                 </RelativeLayout>
 
@@ -98,6 +112,7 @@
         android:rotation="-180"/>
 
     <TextView
+        android:id="@+id/bio"
         android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
