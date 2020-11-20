@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -68,7 +69,6 @@ public class HomeActivity extends AppCompatActivity {
     ActionBarDrawerToggle t;
     NavigationView nv;
     RecyclerView rv;
-    RelativeLayout rl;
     UserAdapter MyRvAdapter;
 
     TextView nav_email, nav_name;
@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     List<User> users;
     List<String> contactsList;
     User userData;
+    ImageView menu;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onCreate(Bundle savedInstanceState) {
@@ -90,8 +91,7 @@ public class HomeActivity extends AppCompatActivity {
         reference = database.getReference("Users").child(user.getUid());
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        rl = findViewById(R.id.bar_layout);
-        toolbar = rl.findViewById(R.id.myAppBar);
+        toolbar = findViewById(R.id.appBar);
         rv = findViewById(R.id.recycler_view);
         dl = (DrawerLayout) findViewById(R.id.nav_drawer);
         nv = (NavigationView) findViewById(R.id.nv);
@@ -102,7 +102,9 @@ public class HomeActivity extends AppCompatActivity {
         nav_name = header.findViewById(R.id.name);
         search_img = findViewById(R.id.profile_img);
 
+        toolbar.setContentInsetsAbsolute(0,0);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+
         t = new ActionBarDrawerToggle(this, dl, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dl.addDrawerListener(t);
         t.setDrawerIndicatorEnabled(true);

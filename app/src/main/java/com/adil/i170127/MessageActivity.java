@@ -79,8 +79,7 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MessageActivity.this, HomeActivity.class));
-                //finish();
+                finish();
             }
         });
 

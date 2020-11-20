@@ -19,6 +19,7 @@
             android:fitsSystemWindows="true"
             android:id="@+id/appBar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
