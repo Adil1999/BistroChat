@@ -104,7 +104,11 @@ public class HomeActivity extends AppCompatActivity {
         searchbadge = findViewById(R.id.search_badge);
 
         toolbar.setContentInsetsAbsolute(0,0);
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        //toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24);
 
         t = new ActionBarDrawerToggle(this, dl, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dl.addDrawerListener(t);
